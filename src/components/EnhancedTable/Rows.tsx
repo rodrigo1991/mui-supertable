@@ -2,7 +2,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { TableRow } from "@mui/material";
 import { ComponentType, memo } from "react";
-// import Link from "next/link";
+import Link from "next/link";
 import { format } from "rut.js";
 
 import { currencyFormat, formatFecha } from "./helper";
@@ -67,14 +67,6 @@ const Rows = <T extends IdBase>({
     return val;
   };
 
-  // if (colorField && rowColor) {
-  //   const colorKey = getVal(colorField);
-  //   backgroundColor = rowColor[colorKey];
-  // }
-
-  // const backgroundColor =
-  //   colorField && rowColor ? rowColor[getVal(colorField, row)] : null;
-
   return (
     <>
       {rows.map((row) => (
@@ -84,7 +76,6 @@ const Rows = <T extends IdBase>({
           sx={{
             backgroundColor:
               colorField && rowColor ? rowColor[getVal(colorField, row)] : null,
-            // '& > *': { borderBottom: 'unset' },
           }}
         >
           {headCells.map((cell) => {
@@ -97,10 +88,11 @@ const Rows = <T extends IdBase>({
               : cell.link?.href || null;
             return (
               <StyledTableCell key={id}>
-                {href && val
-                  ? formatCell(val, cell.type)
-                  : // <Link href={href}>{`${formatCell(val, cell.type)}`}</Link>
-                    formatCell(val, cell.type)}
+                {href && val ? (
+                  <Link href={href}>{`${formatCell(val, cell.type)}`}</Link>
+                ) : (
+                  formatCell(val, cell.type)
+                )}
               </StyledTableCell>
             );
           })}
