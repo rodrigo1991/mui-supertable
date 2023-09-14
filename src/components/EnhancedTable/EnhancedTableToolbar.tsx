@@ -32,8 +32,8 @@ interface EnhancedTableToolbarProps<T extends object> {
   // reload?: () => void;
   setReload?: (reload: boolean | ((prev: boolean) => boolean)) => void;
   csvExport?: () => Promise<void> | undefined;
-  filterValue?: FilterValue;
-  setFilterValue?: (value: (prevVar: FilterValue) => FilterValue) => void;
+  filterValue?: FilterValue<T>;
+  setFilterValue?: (value: (prevVar: FilterValue<T>) => FilterValue<T>) => void;
   headCells?: HeadCell<T>[];
   filterCount: number;
   setFilterCount: (value: number | ((prevVar: number) => number)) => void;
@@ -69,7 +69,7 @@ const EnhancedTableToolbar = <T extends object>({
     setOperators(stringFilter);
     if (setFilterValue)
       setFilterValue((prev) => ({
-        columnField: "name",
+        columnField: "name" as any,
         operatorValue: "%",
         value: prev.value === "" ? null : "",
       }));
@@ -89,7 +89,7 @@ const EnhancedTableToolbar = <T extends object>({
 
   const debounceSetValue = debounce(updateValue, 500);
 
-  const handleColumnChange = (columnField: string) => {
+  const handleColumnChange = (columnField: any) => {
     if (setFilterValue)
       setFilterValue((prevState) => ({
         ...prevState,

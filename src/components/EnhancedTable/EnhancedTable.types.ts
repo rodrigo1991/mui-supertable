@@ -20,13 +20,13 @@ export interface HeadCell<T extends object> extends TableCellProps {
   hide?: boolean;
   collapsible?: boolean;
   disablePadding?: boolean;
-  link?: { href: string; slug?: string };
+  link?: { href: string; slug?: NestedKeyOf<T> };
 }
 
-export type FooterChips = (
+export type FooterChips<T extends object> = (
   sm: boolean,
   setFilterValue?: (
-    filter: FilterValue | ((prevVar: FilterValue) => FilterValue)
+    filter: FilterValue<T> | ((prevVar: FilterValue<T>) => FilterValue<T>)
   ) => void,
   setFilterCount?: (value: number | ((prevVar: number) => number)) => void
 ) => ChipProps[];
@@ -44,12 +44,10 @@ export interface TableSortModel<T extends object> {
   sort: Order;
 }
 
-export type FilterValueType = string | null | number;
-
-export interface FilterValue {
-  columnField: string;
+export interface FilterValue<T extends object> {
+  columnField: NestedKeyOf<T>;
   operatorValue: string;
-  value: FilterValueType;
+  value: any;
 }
 
 export interface Filter {

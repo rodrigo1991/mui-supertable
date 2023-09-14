@@ -31,14 +31,14 @@ interface EnhancedTableProps<T extends object> {
   // reload?: () => void;
   setReload?: (reload: boolean | ((prevVar: boolean) => boolean)) => void;
   csvExport?: () => Promise<void>;
-  filterValue?: FilterValue;
+  filterValue?: FilterValue<T>;
   setFilterValue?: (
-    filter: FilterValue | ((prevVar: FilterValue) => FilterValue)
+    filter: FilterValue<T> | ((prevVar: FilterValue<T>) => FilterValue<T>)
   ) => void;
   loading: boolean;
   rows: T[];
   headCells: HeadCell<T>[];
-  footerChips?: FooterChips;
+  footerChips?: FooterChips<T>;
   rowCount: number;
   page: number;
   pageSize: number;
@@ -104,7 +104,7 @@ const EnhancedTable = <T extends IdBase>({
 
   const memoizedCsvExport = useCallback(() => csvExport && csvExport(), []);
   const memoizedSetFilterValue = useCallback(
-    (filter: FilterValue | ((prevVar: FilterValue) => FilterValue)) =>
+    (filter: FilterValue<T> | ((prevVar: FilterValue<T>) => FilterValue<T>)) =>
       setFilterValue && setFilterValue(filter),
     [setFilterValue]
   );
