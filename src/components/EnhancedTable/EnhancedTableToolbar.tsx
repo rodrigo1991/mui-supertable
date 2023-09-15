@@ -71,7 +71,7 @@ const EnhancedTableToolbar = <T extends object>({
       setFilterValue((prev) => ({
         columnField: "name" as any,
         operatorValue: "%",
-        value: prev.value === "" ? null : "",
+        value: null,
       }));
     setTextType("text");
     setFilterCount(0);
