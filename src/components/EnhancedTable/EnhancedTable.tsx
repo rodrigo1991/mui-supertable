@@ -54,7 +54,11 @@ interface EnhancedTableProps<T extends object> {
   rowColor?: Record<string, string>;
   colorField?: string[];
   title?: string;
-  add?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+  setAdd?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+  setBulk?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+  setFile?: (
+    value: File | null | ((prevVar: File | null) => File | null)
+  ) => void;
   Actions?: ComponentType<ActionProps<T>>;
   ht?: number;
 }
@@ -79,7 +83,9 @@ const EnhancedTable = <T extends IdBase>({
   rowColor,
   colorField,
   title,
-  add,
+  setAdd,
+  setBulk,
+  setFile,
   Actions,
   ht,
 }: EnhancedTableProps<T>) => {
@@ -174,7 +180,9 @@ const EnhancedTable = <T extends IdBase>({
         filterCount={filterCount}
         setFilterCount={memoizedSetFilterCount}
         title={title}
-        add={add}
+        setAdd={setAdd}
+        setBulk={setBulk}
+        setFile={setFile}
       />
       <TableContainer sx={{ height: ht || size }}>
         {loading && <CenterSpinner disableShrink />}

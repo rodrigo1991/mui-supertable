@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { memo, useState } from "react";
+import { ChangeEvent, memo, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ClearIcon from "@mui/icons-material/Clear";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Badge,
   Box,
@@ -27,17 +28,24 @@ import { debounce } from "lodash";
 
 import { dateFilter, numberFilter, stringFilter } from "./operators";
 import { Filter, FilterValue, HeadCell } from "./EnhancedTable.types";
+import VisuallyHiddenInput from "./VisuallyHiddenInput";
 
 interface EnhancedTableToolbarProps<T extends object> {
   // reload?: () => void;
   setReload?: (reload: boolean | ((prev: boolean) => boolean)) => void;
   csvExport?: () => Promise<void> | undefined;
   filterValue?: FilterValue<T>;
-  setFilterValue?: (value: (prevVar: FilterValue<T>) => FilterValue<T>) => void;
+  setFilterValue?: (
+    value: FilterValue<T> | ((prevVar: FilterValue<T>) => FilterValue<T>)
+  ) => void;
   headCells?: HeadCell<T>[];
   filterCount: number;
   setFilterCount: (value: number | ((prevVar: number) => number)) => void;
-  add?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+  setAdd?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+  setBulk?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+  setFile?: (
+    value: File | null | ((prevVar: File | null) => File | null)
+  ) => void;
   title?: string;
 }
 
@@ -50,7 +58,9 @@ const EnhancedTableToolbar = <T extends object>({
   headCells,
   filterCount,
   setFilterCount,
-  add,
+  setAdd,
+  setBulk,
+  setFile,
   title,
 }: EnhancedTableToolbarProps<T>) => {
   console.log("rendering EnhancedTableToolbar");
@@ -68,11 +78,11 @@ const EnhancedTableToolbar = <T extends object>({
   const clear = () => {
     setOperators(stringFilter);
     if (setFilterValue)
-      setFilterValue((prev) => ({
-        columnField: "name" as any,
+      setFilterValue({
+        columnField: null as any,
         operatorValue: "%",
         value: null,
-      }));
+      });
     setTextType("text");
     setFilterCount(0);
     setOpen(false);
@@ -158,6 +168,12 @@ const EnhancedTableToolbar = <T extends object>({
   //   isMounted.current = true;
   // }, []);
 
+  const bulkChangeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { files } = event.target;
+    if (setFile) setFile(files ? files[0] : null);
+    if (setBulk) setBulk(true);
+  };
+
   return (
     <>
       <Toolbar
@@ -174,9 +190,21 @@ const EnhancedTableToolbar = <T extends object>({
         >
           {title && `${title}s`}
         </Typography>
-        {add && (
+        {setBulk && setFile && (
+          <IconButton component="label" aria-label="carga masiva">
+            <VisuallyHiddenInput
+              type="file"
+              onClick={(event) => {
+                event.currentTarget.value = "";
+              }}
+              onChange={bulkChangeHandler}
+            />
+            <CloudUploadIcon />
+          </IconButton>
+        )}
+        {setAdd && (
           <Tooltip title={`Crear ${title}`}>
-            <IconButton onClick={() => add(true)}>
+            <IconButton onClick={() => setAdd(true)}>
               <AddIcon />
             </IconButton>
           </Tooltip>
