@@ -190,22 +190,24 @@ const EnhancedTableToolbar = <T extends object>({
         >
           {title && `${title}s`}
         </Typography>
-        {setBulk && setFile && (
-          <IconButton component="label" aria-label="carga masiva">
-            <VisuallyHiddenInput
-              type="file"
-              onClick={(event) => {
-                event.currentTarget.value = "";
-              }}
-              onChange={bulkChangeHandler}
-            />
-            <CloudUploadIcon />
-          </IconButton>
-        )}
         {setAdd && (
           <Tooltip title={`Crear ${title}`}>
             <IconButton onClick={() => setAdd(true)}>
               <AddIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {setBulk && setFile && (
+          <Tooltip title={`Cargar ${title}`}>
+            <IconButton component="label" aria-label="carga masiva">
+              <VisuallyHiddenInput
+                type="file"
+                onClick={(event) => {
+                  event.currentTarget.value = "";
+                }}
+                onChange={bulkChangeHandler}
+              />
+              <CloudUploadIcon />
             </IconButton>
           </Tooltip>
         )}
