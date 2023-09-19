@@ -198,7 +198,7 @@ const EnhancedTableToolbar = <T extends object>({
           </Tooltip>
         )}
         {setBulk && setFile && (
-          <Tooltip title={`Cargar ${title}`}>
+          <Tooltip title={`Cargar ${title}s`}>
             <IconButton component="label" aria-label="carga masiva">
               <VisuallyHiddenInput
                 type="file"

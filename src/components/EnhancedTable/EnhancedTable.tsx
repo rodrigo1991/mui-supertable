@@ -108,7 +108,10 @@ const EnhancedTable = <T extends IdBase>({
     [sortModel]
   ) as OnRequestSort<T>;
 
-  const memoizedCsvExport = useCallback(() => csvExport && csvExport(), []);
+  const memoizedCsvExport = useCallback(
+    () => csvExport && csvExport(),
+    [csvExport]
+  );
   const memoizedSetFilterValue = useCallback(
     (filter: FilterValue<T> | ((prevVar: FilterValue<T>) => FilterValue<T>)) =>
       setFilterValue && setFilterValue(filter),
@@ -133,34 +136,6 @@ const EnhancedTable = <T extends IdBase>({
   const memoizedRowColor = useMemo(() => rowColor, [rowColor]);
   const memoizedColorField = useMemo(() => colorField, []);
 
-  // const memoizedReload = useCallback(() => reload && reload(), []);
-
-  // const memoizedSetReload = useCallback(
-  //   (reload: boolean | ((prev: boolean) => boolean)) =>
-  //     setReload && setReload(reload),
-  //   []
-  // );
-
-  // const MemoizedRows = useMemo(
-  //   () => (
-  //     <>
-  //       {rows.map(row => (
-  //         <Row
-  //           row={row}
-  //           key={row.id}
-  //           headCells={headCells}
-  //           rowColor={rowColor}
-  //           colorField={colorField}
-  //           Actions={Actions}
-  //           setFilterValue={memoizedSetFilterValue}
-  //           onPageChange={memoizedOnPageChange}
-  //         />
-  //       ))}
-  //     </>
-  //   ),
-  //   [rows]
-  // );
-
   return (
     <Paper
       sx={{
@@ -171,9 +146,8 @@ const EnhancedTable = <T extends IdBase>({
       }}
     >
       <EnhancedTableToolbar<T>
-        // reload={reload && memoizedReload}
         setReload={setReload}
-        csvExport={csvExport && memoizedCsvExport}
+        csvExport={memoizedCsvExport}
         filterValue={filterValue}
         setFilterValue={memoizedSetFilterValue}
         headCells={headCells}
@@ -224,7 +198,4 @@ const EnhancedTable = <T extends IdBase>({
     </Paper>
   );
 };
-// const MemoizedComponent = memo(EnhancedTable) as typeof EnhancedTable;
-// export default MemoizedComponent;
-// export default EnhancedTable;
 export default memo(EnhancedTable) as typeof EnhancedTable;
