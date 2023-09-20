@@ -147,9 +147,9 @@ const EnhancedTable = <T extends IdBase>({
     >
       <EnhancedTableToolbar<T>
         setReload={setReload}
-        csvExport={memoizedCsvExport}
+        csvExport={csvExport && memoizedCsvExport}
         filterValue={filterValue}
-        setFilterValue={memoizedSetFilterValue}
+        setFilterValue={setFilterValue && memoizedSetFilterValue}
         headCells={headCells}
         filterCount={filterCount}
         setFilterCount={memoizedSetFilterCount}
