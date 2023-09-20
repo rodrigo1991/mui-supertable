@@ -145,19 +145,28 @@ const EnhancedTable = <T extends IdBase>({
         backgroundColor: "background.default",
       }}
     >
-      <EnhancedTableToolbar<T>
-        setReload={setReload}
-        csvExport={csvExport && memoizedCsvExport}
-        filterValue={filterValue}
-        setFilterValue={setFilterValue && memoizedSetFilterValue}
-        headCells={headCells}
-        filterCount={filterCount}
-        setFilterCount={memoizedSetFilterCount}
-        title={title}
-        setAdd={setAdd}
-        setBulk={setBulk}
-        setFile={setFile}
-      />
+      {(setReload ||
+        csvExport ||
+        filterValue ||
+        setFilterValue ||
+        title ||
+        setAdd ||
+        setBulk ||
+        setFile) && (
+        <EnhancedTableToolbar<T>
+          setReload={setReload}
+          csvExport={csvExport && memoizedCsvExport}
+          filterValue={filterValue}
+          setFilterValue={setFilterValue && memoizedSetFilterValue}
+          headCells={headCells}
+          filterCount={filterCount}
+          setFilterCount={memoizedSetFilterCount}
+          title={title}
+          setAdd={setAdd}
+          setBulk={setBulk}
+          setFile={setFile}
+        />
+      )}
       <TableContainer sx={{ height: ht || size }}>
         {loading && <CenterSpinner disableShrink />}
         <Table aria-labelledby="tableTitle" size="small" stickyHeader>
