@@ -5,7 +5,7 @@ import { ComponentType, memo } from "react";
 import Link from "next/link";
 import { format } from "rut.js";
 
-import { currencyFormat, formatFecha } from "./helper";
+import { currencyFormat, formatFecha, formatFechaShort } from "./helper";
 import StyledTableCell from "./StyledTableCell";
 import { ActionProps, CellType, HeadCell, IdBase } from "./EnhancedTable.types";
 
@@ -46,6 +46,9 @@ const Rows = <T extends IdBase>({
         if (typeof val === "string") formatted = format(val);
         break;
       case "date":
+        if (typeof val === "string") formatted = formatFechaShort(val);
+        break;
+      case "datetime":
         if (typeof val === "string") formatted = formatFecha(val);
         break;
       case "boolean":
@@ -57,6 +60,16 @@ const Rows = <T extends IdBase>({
     }
     return formatted;
   };
+
+  // const formatCell = {
+  //   currency: currencyFormat,
+  //   rut: format,
+  //   date: formatFechaShort,
+  //   datetime: formatFecha,
+  //   boolean: formatBoolean,
+  //   string: (val: string | number | boolean | null | undefined) => val,
+  //   number: (val: string | number | boolean | null | undefined) => val,
+  // };
 
   const getVal = (keys: string[], row: T) => {
     let val: any = row[keys[0] as keyof T];
@@ -78,20 +91,24 @@ const Rows = <T extends IdBase>({
               colorField && rowColor ? rowColor[getVal(colorField, row)] : null,
           }}
         >
-          {headCells.map((cell) => {
-            const { id } = cell;
+          {headCells.map((headCell) => {
+            const { id } = headCell;
             const val = getVal(id.split("."), row);
             const slug =
-              cell.link?.slug && getVal(cell.link.slug.split("."), row);
+              headCell.link?.slug && getVal(headCell.link.slug.split("."), row);
             const href = slug
-              ? `${cell.link?.href}/${slug}`
-              : cell.link?.href || null;
+              ? `${headCell.link?.href}/${slug}`
+              : headCell.link?.href || null;
             return (
-              <StyledTableCell key={id}>
+              <StyledTableCell
+                key={id}
+                align={headCell.align}
+                padding={headCell.disablePadding ? "none" : "normal"}
+              >
                 {href && val ? (
-                  <Link href={href}>{`${formatCell(val, cell.type)}`}</Link>
+                  <Link href={href}>{`${formatCell(val, headCell.type)}`}</Link>
                 ) : (
-                  formatCell(val, cell.type)
+                  formatCell(val, headCell.type)
                 )}
               </StyledTableCell>
             );

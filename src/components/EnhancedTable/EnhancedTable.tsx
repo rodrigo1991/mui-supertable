@@ -99,7 +99,7 @@ const EnhancedTable = <T extends IdBase>({
   const size = sm ? 680 : 600;
 
   const chips = footerChips
-    ? footerChips(sm, setFilterValue, setFilterCount)
+    ? footerChips(sm, filterValue, setFilterValue, setFilterCount)
     : null;
 
   const memoizedonRequestSort = useCallback(

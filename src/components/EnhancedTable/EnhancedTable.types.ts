@@ -25,6 +25,7 @@ export interface HeadCell<T extends object> extends TableCellProps {
 
 export type FooterChips<T extends object> = (
   sm: boolean,
+  filterValue?: FilterValue<T>,
   setFilterValue?: (
     filter: FilterValue<T> | ((prevVar: FilterValue<T>) => FilterValue<T>)
   ) => void,
@@ -35,6 +36,7 @@ export type CellType =
   | "string"
   | "number"
   | "date"
+  | "datetime"
   | "boolean"
   | "currency"
   | "rut";

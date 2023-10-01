@@ -4,6 +4,13 @@ export const currencyFormat = (num: string | number) =>
     .replace(".", ",") // replace decimal point character with ,
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}`;
 
+export const formatFechaShort = (fecha: string) =>
+  new Date(fecha).toLocaleDateString("es-CL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
 export const formatFecha = (fecha: string) =>
   new Date(fecha).toLocaleDateString("es-CL", {
     day: "2-digit",
