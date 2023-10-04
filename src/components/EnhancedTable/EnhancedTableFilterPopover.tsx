@@ -1,16 +1,16 @@
-import 'dayjs/locale/es';
-import { memo, useEffect, useRef, useState } from 'react';
-import IconButton from '@mui/material/IconButton';
-import ClearIcon from '@mui/icons-material/Clear';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from 'dayjs';
-import { Box, Grid, MenuItem, Popover, TextField } from '@mui/material';
-import { debounce } from 'lodash';
+import "dayjs/locale/es";
+import { memo, useEffect, useRef, useState } from "react";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
+import { Box, Grid, MenuItem, Popover, TextField } from "@mui/material";
+import { debounce } from "lodash";
 
-import { numberFilter, stringFilter } from './operators';
-import { Filter, FilterValue, HeadCell } from './EnhancedTable.types';
+import { numberFilter, stringFilter } from "./operators";
+import { Filter, FilterValue, HeadCell } from "./EnhancedTable.types";
 
 interface EnhancedTableFilterPopoverProps<T extends object> {
   filterValue: FilterValue<T>;
@@ -31,14 +31,14 @@ const EnhancedTableFilterPopover = <T extends object>({
   open,
   setOpen,
 }: EnhancedTableFilterPopoverProps<T>) => {
-  console.log('rendering EnhancedTableFilterPopover');
+  console.log("rendering EnhancedTableFilterPopover");
   const isMounted = useRef(false);
   const [from, setFrom] = useState<Dayjs | null>(null);
   const [to, setTo] = useState<Dayjs | null>(null);
 
-  const popoverId = open ? 'simple-popover' : undefined;
+  const popoverId = open ? "simple-popover" : undefined;
   const clear = () => {
-    setFilterValue(prevState => ({
+    setFilterValue((prevState) => ({
       ...prevState,
       value: null,
     }));
@@ -47,7 +47,7 @@ const EnhancedTableFilterPopover = <T extends object>({
   };
 
   const updateValue = (value: any) => {
-    setFilterValue(prevState => ({
+    setFilterValue((prevState) => ({
       ...prevState,
       value,
     }));
@@ -66,14 +66,14 @@ const EnhancedTableFilterPopover = <T extends object>({
           variant="standard"
           value={filterValue.operatorValue}
           fullWidth
-          onChange={e =>
-            setFilterValue(prevState => ({
+          onChange={(e) =>
+            setFilterValue((prevState) => ({
               ...prevState,
               operatorValue: e.target.value,
             }))
           }
         >
-          {ops.map(filter => (
+          {ops.map((filter) => (
             <MenuItem key={filter.id} value={filter.id}>
               {filter.value}
             </MenuItem>
@@ -88,35 +88,35 @@ const EnhancedTableFilterPopover = <T extends object>({
           variant="standard"
           fullWidth
           autoFocus
-          onChange={e => debounceSetValue(e.target.value)}
+          onChange={(e) => debounceSetValue(e.target.value)}
         />
       </Grid>
     </>
   );
 
   const renderSwitch = (columnField: string) => {
-    const column = headCells.find(headCell => headCell.id === columnField);
+    const column = headCells.find((headCell) => headCell.id === columnField);
 
     if (column)
       switch (column.type) {
-        case 'number':
-        case 'currency':
+        case "number":
+        case "currency":
           return commonFields(numberFilter);
-        case 'string':
-        case 'rut':
+        case "string":
+        case "rut":
           return commonFields(stringFilter);
-        case 'date':
-        case 'datetime':
+        case "date":
+        case "datetime":
           return (
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
               <Grid item xs={4}>
                 <DatePicker
                   label="Desde"
-                  onChange={date => setFrom(date)}
-                  defaultValue={dayjs().startOf('month')}
+                  onChange={(date) => setFrom(date)}
+                  defaultValue={dayjs().startOf("month")}
                   slotProps={{
                     textField: {
-                      variant: 'standard',
+                      variant: "standard",
                     },
                   }}
                 />
@@ -124,18 +124,18 @@ const EnhancedTableFilterPopover = <T extends object>({
               <Grid item xs={4}>
                 <DatePicker
                   label="Hasta"
-                  onChange={date => setTo(date)}
-                  defaultValue={dayjs().endOf('month')}
+                  onChange={(date) => setTo(date)}
+                  defaultValue={dayjs().endOf("month")}
                   slotProps={{
                     textField: {
-                      variant: 'standard',
+                      variant: "standard",
                     },
                   }}
                 />
               </Grid>
             </LocalizationProvider>
           );
-        case 'boolean':
+        case "boolean":
           return (
             <Grid item xs={8}>
               <TextField
@@ -146,7 +146,7 @@ const EnhancedTableFilterPopover = <T extends object>({
                 variant="standard"
                 autoFocus
                 fullWidth
-                onChange={e => updateValue(!!e.target.value)}
+                onChange={(e) => updateValue(!!e.target.value)}
               >
                 <MenuItem value={1}>Sí</MenuItem>
                 <MenuItem value={0}>No</MenuItem>
@@ -177,12 +177,12 @@ const EnhancedTableFilterPopover = <T extends object>({
       anchorReference="anchorPosition"
       anchorPosition={{ top: 198, left: 280 }}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
+        vertical: "top",
+        horizontal: "left",
       }}
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
+        vertical: "top",
+        horizontal: "left",
       }}
     >
       <Box sx={{ p: 1 }}>
@@ -206,14 +206,14 @@ const EnhancedTableFilterPopover = <T extends object>({
               variant="standard"
               value={filterValue.columnField}
               fullWidth
-              onChange={e =>
-                setFilterValue(prevState => ({
+              onChange={(e) =>
+                setFilterValue((prevState) => ({
                   ...prevState,
                   columnField: e.target.value as any,
                 }))
               }
             >
-              {headCells?.map(columna => (
+              {headCells?.map((columna) => (
                 <MenuItem key={columna.id} value={columna.id}>
                   {columna.label}
                 </MenuItem>
