@@ -51,7 +51,7 @@ const EnhancedTableFilterPopover = <T extends object>({
       ...prevState,
       value,
     }));
-    setFilterCount(value ? 1 : 0);
+    setFilterCount(value !== null ? 1 : 0);
   };
 
   const debounceSetValue = debounce(updateValue, 500);
