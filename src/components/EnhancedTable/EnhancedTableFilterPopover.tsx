@@ -171,7 +171,9 @@ const EnhancedTableFilterPopover = <T extends object>({
   return (
     <Popover
       id={popoverId}
-      slotProps={{ paper: { sx: { minWidth: 400 } } }}
+      slotProps={{
+        paper: { sx: { minWidth: { xs: "90%", md: 400 } } },
+      }}
       open={open}
       onClose={() => setOpen(false)}
       anchorReference="anchorPosition"
