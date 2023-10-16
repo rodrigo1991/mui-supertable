@@ -21,6 +21,7 @@ export interface HeadCell<T extends object> extends TableCellProps {
   collapsible?: boolean;
   disablePadding?: boolean;
   link?: { href: string; slug?: NestedKeyOf<T> };
+  button?: { onClick: Function; params: NestedKeyOf<T>[] };
 }
 
 export type FooterChips<T extends object> = (

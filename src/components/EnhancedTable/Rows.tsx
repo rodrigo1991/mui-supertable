@@ -1,6 +1,6 @@
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { TableRow } from "@mui/material";
+import { Button, TableRow } from "@mui/material";
 import { ComponentType, memo } from "react";
 import Link from "next/link";
 import { format } from "rut.js";
@@ -31,7 +31,6 @@ const Rows = <T extends IdBase>({
   setReload,
   onPageChange,
 }: RowsProps<T>) => {
-  console.log("🚀 ~ file: Row.tsx:35 ~ row");
   const formatCell = (
     val: string | number | boolean | null | undefined,
     type: CellType
@@ -99,17 +98,38 @@ const Rows = <T extends IdBase>({
             const href = slug
               ? `${headCell.link?.href}/${slug}`
               : headCell.link?.href || null;
+
+            const params =
+              headCell.button?.params &&
+              headCell.button.params.map((param: string) =>
+                getVal(param.split("."), row)
+              );
+
+            let cell = null;
+
+            if (href && val)
+              cell = (
+                <Link href={href}>{`${formatCell(val, headCell.type)}`}</Link>
+              );
+            else if (
+              headCell.button &&
+              params &&
+              !params.some((param) => param === null)
+            )
+              cell = (
+                <Button
+                  onClick={() => headCell.button?.onClick(...params)}
+                >{`${formatCell(val, headCell.type)}`}</Button>
+              );
+            else cell = formatCell(val, headCell.type);
+
             return (
               <StyledTableCell
                 key={id}
                 align={headCell.align}
                 padding={headCell.disablePadding ? "none" : "normal"}
               >
-                {href && val ? (
-                  <Link href={href}>{`${formatCell(val, headCell.type)}`}</Link>
-                ) : (
-                  formatCell(val, headCell.type)
-                )}
+                {cell}
               </StyledTableCell>
             );
           })}
