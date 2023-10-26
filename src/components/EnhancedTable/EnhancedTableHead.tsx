@@ -10,7 +10,7 @@ import {
 } from "./EnhancedTable.types";
 
 interface EnhancedTableHeadProps<T extends object> {
-  sortModel: TableSortModel<T>;
+  sortModel?: TableSortModel<T>;
   onRequestSort?: OnRequestSort<T>;
   headCells: HeadCell<T>[];
   actions: boolean;
@@ -21,7 +21,7 @@ const EnhancedTableHead = <T extends object>({
   headCells,
   actions,
 }: EnhancedTableHeadProps<T>) => {
-  console.log("Rendeting EnhancedTableHead");
+  // console.log('Rendeting EnhancedTableHead');
   const createSortHandler =
     (property: NestedKeyOf<T>) => (event: React.MouseEvent<unknown>) => {
       if (onRequestSort) onRequestSort(event, property);
@@ -40,19 +40,23 @@ const EnhancedTableHead = <T extends object>({
                 component="th"
                 padding={headCell.disablePadding ? "none" : "normal"}
                 sortDirection={
-                  sortModel.field === headCell.id ? sortModel.sort : false
+                  sortModel?.field === headCell.id ? sortModel?.sort : false
                 }
               >
-                <TableSortLabel
-                  active={sortModel.field === headCell.id}
-                  direction={
-                    sortModel.field === headCell.id ? sortModel.sort : "asc"
-                  }
-                  onClick={createSortHandler(headCell.id)}
-                  sx={{ whiteSpace: "nowrap" }}
-                >
-                  {headCell.label}
-                </TableSortLabel>
+                {onRequestSort ? (
+                  <TableSortLabel
+                    active={sortModel?.field === headCell.id}
+                    direction={
+                      sortModel?.field === headCell.id ? sortModel?.sort : "asc"
+                    }
+                    onClick={createSortHandler(headCell.id)}
+                    sx={{ whiteSpace: "nowrap" }}
+                  >
+                    {headCell.label}
+                  </TableSortLabel>
+                ) : (
+                  headCell.label
+                )}
               </TableCell>
             )
         )}

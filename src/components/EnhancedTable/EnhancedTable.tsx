@@ -28,7 +28,6 @@ import EnhancedTableFooter from "./EnhancedTableFooter";
 import EnhancedTablePagination from "./EnhancedTablePagination";
 
 interface EnhancedTableProps<T extends object> {
-  // reload?: () => void;
   setReload?: (reload: boolean | ((prevVar: boolean) => boolean)) => void;
   csvExport?: () => Promise<void>;
   filterValue?: FilterValue<T>;
@@ -39,9 +38,9 @@ interface EnhancedTableProps<T extends object> {
   rows: T[];
   headCells: HeadCell<T>[];
   footerChips?: FooterChips<T>;
-  rowCount: number;
-  page: number;
-  pageSize: number;
+  rowCount?: number;
+  page?: number;
+  pageSize?: number;
   onPageChange?: (
     event: React.MouseEvent<HTMLButtonElement> | null,
     page: number
@@ -49,7 +48,7 @@ interface EnhancedTableProps<T extends object> {
   onRowsPerPageChange?: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
-  sortModel: TableSortModel<T>;
+  sortModel?: TableSortModel<T>;
   onRequestSort?: OnRequestSort<T>;
   rowColor?: Record<string, string>;
   colorField?: string[];
@@ -89,7 +88,7 @@ const EnhancedTable = <T extends IdBase>({
   Actions,
   ht,
 }: EnhancedTableProps<T>) => {
-  console.log("🚀 ~ file: index.tsx:84 ~ EnhancedTable", rows);
+  // console.log('🚀 ~ file: index.tsx:84 ~ EnhancedTable', rows);
 
   const [filterCount, setFilterCount] = useState(0);
 
@@ -172,7 +171,7 @@ const EnhancedTable = <T extends IdBase>({
         <Table aria-labelledby="tableTitle" size="small" stickyHeader>
           <EnhancedTableHead<T>
             sortModel={sortModel}
-            onRequestSort={memoizedonRequestSort}
+            onRequestSort={onRequestSort && memoizedonRequestSort}
             headCells={headCells}
             actions={!!Actions}
           />
@@ -194,7 +193,7 @@ const EnhancedTable = <T extends IdBase>({
         </Table>
       </TableContainer>
       {chips && <EnhancedTableFooter chips={chips} sm={sm} />}
-      {onPageChange && onRowsPerPageChange && (
+      {onPageChange && onRowsPerPageChange && rowCount && pageSize && page && (
         <EnhancedTablePagination
           rowCount={rowCount}
           pageSize={pageSize}
