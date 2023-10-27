@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+import { isNil } from "lodash";
 import {
   Paper,
   Table,
@@ -196,16 +196,20 @@ const EnhancedTable = <T extends IdBase>({
         </Table>
       </TableContainer>
       {chips && <EnhancedTableFooter chips={chips} sm={sm} />}
-      {onPageChange && onRowsPerPageChange && rowCount && pageSize && page && (
-        <EnhancedTablePagination
-          rowCount={rowCount}
-          pageSize={pageSize}
-          page={page}
-          onPageChange={memoizedOnPageChange}
-          onRowsPerPageChange={memoizedOnRowsPerPageChange}
-          sm={sm}
-        />
-      )}
+      {onPageChange &&
+        onRowsPerPageChange &&
+        !isNil(rowCount) &&
+        !isNil(pageSize) &&
+        !isNil(page) && (
+          <EnhancedTablePagination
+            rowCount={rowCount}
+            pageSize={pageSize}
+            page={page}
+            onPageChange={memoizedOnPageChange}
+            onRowsPerPageChange={memoizedOnRowsPerPageChange}
+            sm={sm}
+          />
+        )}
     </Paper>
   );
 };
