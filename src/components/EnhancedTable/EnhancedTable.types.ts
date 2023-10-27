@@ -2,7 +2,7 @@ import { ChipProps, TableCellProps } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
 export interface IdBase {
-  id: string | number;
+  id: string;
 }
 
 export type Order = "asc" | "desc";

@@ -59,6 +59,7 @@ interface EnhancedTableProps<T extends object> {
     value: File | null | ((prevVar: File | null) => File | null)
   ) => void;
   Actions?: ComponentType<ActionProps<T>>;
+  onClick?: (row: T) => void;
   ht?: number;
 }
 
@@ -86,6 +87,7 @@ const EnhancedTable = <T extends IdBase>({
   setBulk,
   setFile,
   Actions,
+  onClick,
   ht,
 }: EnhancedTableProps<T>) => {
   // console.log('🚀 ~ file: index.tsx:84 ~ EnhancedTable', rows);
@@ -188,6 +190,7 @@ const EnhancedTable = <T extends IdBase>({
               Actions={Actions}
               setReload={setReload}
               onPageChange={memoizedOnPageChange}
+              onClick={onClick}
             />
           </TableBody>
         </Table>
