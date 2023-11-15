@@ -42,7 +42,7 @@ const EnhancedTableToolbar = <T extends object>({
   setFile,
   title,
 }: EnhancedTableToolbarProps<T>) => {
-  console.log("rendering EnhancedTableToolbar");
+  // console.log("rendering EnhancedTableToolbar");
   const [open, setOpen] = useState(false);
 
   const bulkChangeHandler = (event: ChangeEvent<HTMLInputElement>): void => {

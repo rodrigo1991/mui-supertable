@@ -1,7 +1,15 @@
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { Button, TableRow } from "@mui/material";
-import { ComponentType, memo, useState } from "react";
+import { Button, TableRow, Tooltip } from "@mui/material";
+import {
+  ComponentType,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  forwardRef,
+  memo,
+  useState,
+} from "react";
 import Link from "next/link";
 import { format } from "rut.js";
 
@@ -22,6 +30,12 @@ interface RowsProps<T extends object> {
   onClick?: (row: T) => void;
   Actions?: ComponentType<ActionProps<T>>;
 }
+
+const Content: FC<PropsWithChildren> = forwardRef((props, ref) => (
+  <div {...props} ref={ref as React.RefObject<HTMLDivElement>}>
+    {props.children}
+  </div>
+));
 
 const Rows = <T extends IdBase>({
   rows,
@@ -64,6 +78,17 @@ const Rows = <T extends IdBase>({
         break;
       case "boolean":
         formatted = val ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />;
+        break;
+      case "text":
+        if (typeof val === "string")
+          formatted =
+            val.length > 50 ? (
+              <Tooltip title={val}>
+                <Content>{`${val.slice(0, 50)}...`}</Content>
+              </Tooltip>
+            ) : (
+              <Content>{val}</Content>
+            );
         break;
       default:
         formatted = val;

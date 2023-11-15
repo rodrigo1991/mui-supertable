@@ -40,6 +40,7 @@ export type CellType =
   | "datetime"
   | "boolean"
   | "currency"
+  | "text"
   | "rut";
 
 export interface TableSortModel<T extends object> {

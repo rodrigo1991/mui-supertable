@@ -1,5 +1,5 @@
-import { TablePagination } from '@mui/material';
-import { FC, memo } from 'react';
+import { TablePagination } from "@mui/material";
+import { FC, memo } from "react";
 
 interface DefaultLabelDisplayedRowsInterface {
   from: number;
@@ -35,25 +35,19 @@ const EnhancedTablePagination: FC<EnhancedTablePaginationProps> = ({
   onPageChange,
   onRowsPerPageChange,
   sm,
-}) => {
-  console.log(
-    '🚀 ~ file: EnhancedTablePagination.tsx:51 ~ rowCount:',
-    rowCount
-  );
-  return (
-    <TablePagination
-      rowsPerPageOptions={[5, 20, 50, 100]}
-      component="div"
-      count={rowCount}
-      rowsPerPage={pageSize}
-      page={page}
-      labelRowsPerPage={sm ? 'Filas por página' : 'Filas'}
-      labelDisplayedRows={defaultLabelDisplayedRows}
-      onPageChange={onPageChange}
-      onRowsPerPageChange={onRowsPerPageChange}
-    />
-  );
-};
+}) => (
+  <TablePagination
+    rowsPerPageOptions={[5, 20, 50, 100]}
+    component="div"
+    count={rowCount}
+    rowsPerPage={pageSize}
+    page={page}
+    labelRowsPerPage={sm ? "Filas por página" : "Filas"}
+    labelDisplayedRows={defaultLabelDisplayedRows}
+    onPageChange={onPageChange}
+    onRowsPerPageChange={onRowsPerPageChange}
+  />
+);
 
 const MemoizedEnhancedTablePagination = memo(
   EnhancedTablePagination
