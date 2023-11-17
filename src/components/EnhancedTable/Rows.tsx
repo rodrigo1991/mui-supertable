@@ -1,5 +1,7 @@
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Button, TableRow, Tooltip } from "@mui/material";
 import {
   ComponentType,
@@ -78,6 +80,9 @@ const Rows = <T extends IdBase>({
         break;
       case "boolean":
         formatted = val ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />;
+        break;
+      case "visible":
+        formatted = val ? <VisibilityIcon /> : <VisibilityOffIcon />;
         break;
       case "text":
         if (typeof val === "string")
