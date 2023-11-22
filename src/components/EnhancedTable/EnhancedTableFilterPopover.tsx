@@ -136,6 +136,7 @@ const EnhancedTableFilterPopover = <T extends object>({
             </LocalizationProvider>
           );
         case "boolean":
+        case "visible":
           return (
             <Grid item xs={8}>
               <TextField
