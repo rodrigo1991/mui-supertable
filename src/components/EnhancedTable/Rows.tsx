@@ -87,9 +87,9 @@ const Rows = <T extends IdBase>({
       case "text":
         if (typeof val === "string")
           formatted =
-            val.length > 50 ? (
+            val.length > 35 ? (
               <Tooltip title={val}>
-                <Content>{`${val.slice(0, 50)}...`}</Content>
+                <Content>{`${val.slice(0, 32)}...`}</Content>
               </Tooltip>
             ) : (
               <Content>{val}</Content>
@@ -166,11 +166,18 @@ const Rows = <T extends IdBase>({
                 params &&
                 !params.some((param) => param === null)
               )
-                cell = (
-                  <Button
-                    onClick={() => headCell.button?.onClick(...params)}
-                  >{`${formatCell(val, headCell.type)}`}</Button>
-                );
+                cell =
+                  val.length > 15 ? (
+                    <Tooltip title={val}>
+                      <Button
+                        onClick={() => headCell.button?.onClick(...params)}
+                      >{`${val.slice(0, 12)}...`}</Button>
+                    </Tooltip>
+                  ) : (
+                    <Button
+                      onClick={() => headCell.button?.onClick(...params)}
+                    >{`${formatCell(val, headCell.type)}`}</Button>
+                  );
               else cell = formatCell(val, headCell.type);
 
               return (
