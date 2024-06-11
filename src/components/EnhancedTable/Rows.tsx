@@ -15,9 +15,10 @@ import {
 import Link from "next/link";
 import { format } from "rut.js";
 
-import { currencyFormat, formatFecha, formatFechaShort } from "./helper";
+import { currencyFormat } from "./helper";
 import StyledTableCell from "./StyledTableCell";
 import { ActionProps, CellType, HeadCell, IdBase } from "./EnhancedTable.types";
+import dayjs from "dayjs";
 
 interface RowsProps<T extends object> {
   rows: T[];
@@ -73,10 +74,12 @@ const Rows = <T extends IdBase>({
         if (typeof val === "string") formatted = format(val);
         break;
       case "date":
-        if (typeof val === "string") formatted = formatFechaShort(val);
+        if (typeof val === "string")
+          formatted = dayjs(val).format("DD-MM-YYYY");
         break;
       case "datetime":
-        if (typeof val === "string") formatted = formatFecha(val);
+        if (typeof val === "string")
+          formatted = dayjs(val).format("DD-MM-YYYY HH:mm:ss");
         break;
       case "boolean":
         formatted = val ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />;
